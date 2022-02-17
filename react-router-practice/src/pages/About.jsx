@@ -9,6 +9,8 @@ export default function About() {
   for (const entry of searchParams.entries()) {
     const [param, value] = entry;
     console.log(param + '=' + value);
-  }
-  return <div>About</div>
-}
+
+    return <div>{searchParams && <p>{param} 은 {value} 입니다.</p> }</div>
+  };
+  return <h2>About 페이지 입니다.</h2>
+};
