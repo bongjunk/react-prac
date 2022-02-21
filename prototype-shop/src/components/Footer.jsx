@@ -1,3 +1,10 @@
 export default function Footer() {
-  return <div>Footer</div>;
+  return (
+    <>
+      <footer>
+        <p>&copy; 2022 Bongjun Kim. All rights reserved.</p>
+      </footer>
+      ;
+    </>
+  );
 }
