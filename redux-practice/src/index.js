@@ -21,7 +21,7 @@ import { Provider } from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider value={store}>
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,

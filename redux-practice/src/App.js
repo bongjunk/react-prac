@@ -1,20 +1,21 @@
-import logo from "./logo.svg";
 import "./App.css";
-import TodoListContainer from "./containers/TodoListContainer";
-import TodoFormContainer from "./containers/TodoFormContainers";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Todos from "./pages/Todos";
+import Users from "./pages/Users";
+import history from "./history";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <TodoListContainer />
-        <TodoFormContainer />
-
-        {/* state는 obj기 때문에 문자열로 변환해서 state를 출력
-        {JSON.stringify(state)} */}
-      </header>
-    </div>
+    <>
+      <BrowserRouter history={history}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/todos" element={<Todos />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
