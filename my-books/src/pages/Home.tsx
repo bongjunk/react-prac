@@ -1,9 +1,17 @@
-import React from "react";
+import { Route, Navigate, Routes } from "react-router-dom";
+import ListContainer from "../containers/ListContainer";
+import useToken from "../hooks/useToken";
 
 export default function Home() {
-  return (
-    <>
-      <h1>Home</h1>
-    </>
-  );
+  const token = useToken();
+
+  if (token === null) {
+    return (
+      <Routes>
+        <Route path="/" element={<Navigate replace to="/signin" />} />
+      </Routes>
+    );
+  }
+
+  return <ListContainer />;
 }

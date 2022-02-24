@@ -1,12 +1,8 @@
-import { createActions, handleActions } from "redux-actions";
-import { takeEvery } from "redux-saga/effects";
-
-// auth state의 타입
-interface AuthState {
-  token: string | null;
-  loading: boolean;
-  error: Error | null;
-}
+import { createActions, handleActions, Action } from "redux-actions";
+import { call, put, select, takeEvery } from "redux-saga/effects";
+import TokenService from "../../services/TokenService";
+import UserService from "../../services/UserService";
+import { AuthState, LoginReqType } from "../../types";
 
 const initialState: AuthState = {
   token: null,
@@ -50,10 +46,33 @@ export default reducer;
 export const { login, logout } = createActions("LOGIN", "LOGOUT", { prefix });
 
 // login action
-function* loginSaga() {}
+function* loginSaga(action: Action<LoginReqType>) {
+  try {
+    yield put(pending());
+    const token: string = yield call(UserService.login, action.payload);
+    TokenService.set(token);
+    // localstorage
+    yield put(success(token));
+    // push
+    // yield put(push("/"));
+  } catch (error: any) {
+    yield put(fail(new Error(error?.response?.data?.error || `UNKNOWN_ERROR`)));
+  }
+}
 
 // logout action
-function* logoutSaga() {}
+function* logoutSaga() {
+  try {
+    yield put(pending());
+    const token: string = yield select((state) => state.auth.token);
+    yield call(UserService.logout, token);
+    TokenService.set(token);
+  } catch (error) {
+  } finally {
+    TokenService.remove();
+    yield put(success(null));
+  }
+}
 
 // saga
 export function* authSaga() {
