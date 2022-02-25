@@ -1,6 +1,5 @@
 import { PageHeader, Button, Table } from "antd";
 import React, { useEffect } from "react";
-import { getBooks } from "../redux/modules/books";
 import { BookType } from "../types";
 import Layout from "./Layout";
 import Book from "./Book";
@@ -13,6 +12,7 @@ interface ListProps {
   getBooks: () => void;
   logout: () => void;
   goAdd: () => void;
+  deleteBook: (bookdId: number) => void;
 }
 
 const List: React.FC<ListProps> = ({
@@ -22,6 +22,7 @@ const List: React.FC<ListProps> = ({
   error,
   logout,
   goAdd,
+  deleteBook,
 }) => {
   useEffect(() => {
     getBooks();
@@ -63,7 +64,9 @@ const List: React.FC<ListProps> = ({
             title: "Book",
             dataIndex: "book",
             key: "book",
-            render: (text, record) => <Book {...record} />,
+            render: (text, record) => (
+              <Book {...record} deleteBook={deleteBook} />
+            ),
           },
         ]}
         loading={books === null || loading}

@@ -3,7 +3,7 @@ import { Route, Navigate, Routes } from "react-router-dom";
 import SigninContainer from "../containers/SigninContainer";
 import useToken from "../hooks/useToken";
 
-export default function Signin() {
+export default function Sigcnin() {
   const token = useToken();
 
   if (token !== null) {
