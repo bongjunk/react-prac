@@ -3,40 +3,16 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { observable } from "mobx";
-import PersonContext from "./contexts/PersonContext";
-import PersonStore from "./stores/PersonStore";
+import { Provider } from "mobx-react";
+import RootStore from "./stores/RootStore";
 
-// const isLogin = observable(true);
-
-// const person = observable({
-//   name: "bong",
-//   age: 29,
-// });
-
-const personStore = new PersonStore();
-
-// setInterval(() => {
-//   personStore.age++;
-// }, 1000);
-
-// autorun(() => {
-//   console.log(isLogin.get());
-//   console.log(person.age);
-//   console.log(personStore.age);
-// });
-
-// isLogin.set(false);
-
-// person.age = 33;
-
-// personStore.age = 35;
+const rootStore = new RootStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <PersonContext.Provider value={personStore}>
+    <Provider {...rootStore}>
       <App />
-    </PersonContext.Provider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
