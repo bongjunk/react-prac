@@ -1,56 +1,48 @@
-import { useRouter } from "next/router";
-import sanityClient from "@sanity/client";
+import SanityService from "../../services/SanityService";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/Header";
+import BlogMainPost from "../../components/BlogMainPost";
+import BlogPostDetail from "../../components/BlogPostDetail";
+import Footer from "../../components/Footer";
 
-export default function postAll() {
-  const router = useRouter();
-
-  const { slug } = router.query;
-
-  console.log(router.query);
+export default function postAll({ slug, post }) {
+  console.log(post);
   return (
-    <div>
-      <h1>Post : {slug}</h1>
+    <div className={styles.container}>
+      <Header />
+      <BlogMainPost {...post} />
+      <BlogPostDetail blocks={content} />
+      <Footer />
     </div>
   );
 }
 
-export function getStaticPaths() {
-  
+export async function getStaticPaths() {
+  const posts = await new SanityService().getPosts();
+
+  const paths = posts.map((post) => ({
+    params: {
+      slug: post.slug,
+    },
+  }));
+
   return {
-    paths: [{params: {slug: 'my-blog-test'}}]
-    fallback:
-  }
+    paths,
+    fallback: false,
+  };
+}
 
-  // sanity로 부터 데이터를 가져온다.
-  const client = sanityClient({
-    dataset: "production",
-    projectId: "gp7gjuwc",
-    useCdn: process.env.NODE_ENV === "production",
-  });
+export async function getStaticProps({ params }) {
+  const { slug } = params;
 
-  const posts = await client.fetch(`
-    *[_type == 'post']{
-      title, 
-      subtitle, 
-      createdAt, 
-      'content': content[]{
-        ..., 
-        ...select(_type == 'imageGallery' => {'images': images[]{..., 'url': asset -> url}})
-      },
-      'slug': slug.current,
-      'thumbnail': {
-        'alt': thumbnail.alt,
-        'imageUrl': thumbnail.asset -> url
-      },
-      'author': author -> {
-        name,
-        role,
-        'image': image.asset -> url
-      },
-      'tag': tag -> {
-        title,
-        'slug': slug.current
-      }
-    }
-  `);
+  const posts = await new SanityService().getPosts();
+
+  const post = posts.find((p) => p.slug === slug);
+
+  return {
+    props: {
+      slug,
+      post,
+    },
+  };
 }
