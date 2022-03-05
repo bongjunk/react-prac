@@ -11,7 +11,7 @@ export default function postAll({ slug, post }) {
     <div className={styles.container}>
       <Header />
       <BlogMainPost {...post} />
-      <BlogPostDetail blocks={content} />
+      <BlogPostDetail blocks={post.content} />
       <Footer />
     </div>
   );

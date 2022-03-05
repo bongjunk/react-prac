@@ -10,7 +10,7 @@ export default function Header() {
           <Link href="/">
             <a>
               <div style={{ fontSize: 20, fontWeight: "bold" }}>
-                <CodeOutlined /> Bong's Blog
+                <CodeOutlined /> Bong`s Blog
               </div>
             </a>
           </Link>

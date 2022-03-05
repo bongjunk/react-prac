@@ -1,6 +1,7 @@
 import { Card, Col, Row } from "antd";
 import Link from "next/link";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 export default function BlogList({ posts }) {
   return (
@@ -13,15 +14,17 @@ export default function BlogList({ posts }) {
       <Row gutter={16} align="top" style={{ height: "auto" }}>
         {posts.map((post) => {
           return (
-            <Col span={6}>
+            <Col span={6} key={post.id}>
               <Link href={`/post/${post.slug}`}>
                 <a>
                   <Card
                     style={{ width: "100%", border: "none", marginBottom: 30 }}
                     cover={
-                      <img
-                        alt={post.thumbnail.alt}
+                      <Image
                         src={post.thumbnail.imageUrl}
+                        alt={post.thumbnail.alt}
+                        width="640px"
+                        height="320px"
                       />
                     }
                   >

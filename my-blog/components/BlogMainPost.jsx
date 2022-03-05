@@ -1,6 +1,7 @@
 import { Card, Col, Row } from "antd";
 import Link from "next/link";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 export default function BlogMainPost({
   slug,
@@ -17,7 +18,14 @@ export default function BlogMainPost({
           <a>
             <Card
               style={{ border: "none" }}
-              cover={<img alt={thumbnail?.alt} src={thumbnail?.imageUrl} />}
+              cover={
+                <Image
+                  alt={thumbnail?.alt}
+                  src={thumbnail?.imageUrl}
+                  width="640px"
+                  height="320px"
+                />
+              }
             >
               <h1>{title}</h1>
               <h3>{subtitle}</h3>
